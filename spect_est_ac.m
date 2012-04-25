@@ -1,7 +1,6 @@
 function [Shat] = spect_est_ac(x, dt, M)
 % Umritun á corspec úr kafla 7-9
 fs=1/dt;
-%M=16; % Festum tímaseinkunar glugga í 16 eins og er notað í bók.
 [a,b]=size(x);
 if a<b % Gera inntak að dálkvigur
     x=x';

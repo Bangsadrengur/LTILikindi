@@ -1,0 +1,251 @@
+%        File: hthk6_Lik_V3.tex
+%     Created: Wed Apr 25 07:00 PM 2012 G
+% Last Change: Wed Apr 25 07:00 PM 2012 G
+%
+\documentclass[11pt,a4paper]{article}
+\usepackage[icelandic]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\author{Nemi: Heimir Þór Kjartansson\\Verkefnakennari: Jakob Sigurðsson}
+\title{Fag: Líkindaaðferðir verklegt \\ Skiladæmi 3}
+\begin{document}
+\maketitle
+\section{Inngangur}
+Hér er skoðað LTI kerfi og hegðun þess við slembið inntak. Við umfjöllun
+og úrvinnslu er mikið stuðst við aðferðir og niðurstöður úr kennslubók
+áfangans. Verkefnið er unnið sem þriðja verklega verkefni fyrir áfangann
+Líkindaaðferðir við Háskóla Íslands.
+\section{LTI kerfi}
+Unnið er með LTI kerfi þar sem inntak er sett í gegnum Butterworth síu
+og titlum við yfirfærslufall hennar $H(f)$. 
+Aflyfirfærslufall kerfisins hefur eiginleikana
+\begin{eqnarray*}
+    |H(f)|^2 = \frac{1}{1+\left[\frac{f^2-f_uf_l}{f(f_u-f_l)}\right]^2}
+\end{eqnarray*}
+þar sem mörk síunnar eru $f_u=110Hz$ og $f_l=90Hz$.
+\section{Inn- og úttak kerfisins} 
+Inntakið sem skoðað er, $X(t)$, er vítt staðnað slembiferli. Skoðað 
+verður úttak kerfisins, $Y(t)$.
+
+Gefið er sjálffylgnifall innmerkisins
+\begin{eqnarray*}
+    R_X(\tau)=5^{-600|\tau|}
+\end{eqnarray*}
+
+Tíðnirófþéttleiki úttaksins er fundinn og settur fram sem jafna
+(8-83) í námsbók og má sjá frekari atriði útleiðslu þar.
+\begin{eqnarray*}
+    S_Y(f)=\frac{6.0792\cdot 10^4 f^2}{f^6 -1.02811\cdot 10^4 f^4
+    -7.88969\cdot 10^7 f^2 +8.93744 \cdot 10^{11}}
+\end{eqnarray*}
+
+Sýni úr inntaki má finna með lítilvæglegri umritun á M-skrá úr 
+námsbók, þ.e. ,sysxmp5.m'. Sjá ???? fyrir kóða.
+?????MYND??????
+\section{Föll sem finna rófsþéttleika} \label{se:foll}
+Í kóðahluta ???? eru tilgreind þrjú föll sem hvert finnur 
+rófsþéttleika. 
+\begin{verbatim}
+[Shat] = spect_est_pg(x, dt)
+\end{verbatim}
+tekur inn sýniferli $x$ og söfnunarbil $dt$ og skilar rófþéttleika 
+sýniferlisins $Shat$.
+
+\begin{verbatim}
+[Shat] = spect_ext_ac(x, dt, M)
+\end{verbatim}
+tekur inn sýniferli $x$, söfnunarbil $dt$ og tímaseinkun $M$ og skilar
+rófþéttleika sýniferlisins $Shat$.
+
+\begin{verbatim}
+[Shat] = spect_est_x(x, dt, wtype, stype)
+\end{verbatim}
+tekur inn sýniferli $x$, söfnunarbil $dt$, gluggategund $wtype$ þar 
+sem 1 er boxcar, 2 er hamming og 3 hanning, og að lokum $stype$ 
+eða róftýpu þar sem 1 er nákvæmni í tind og 2 er mýkt fall. Þá skilar
+fallið rófþéttleika $Shat$.
+\section{Meðalkvaðratskekkja} \label{se:mse}
+Sýna skal að meðalkvaðratskekkju $MSE$ megi setja fram sem línulega
+samantekt annars veldis bjögunar metna rófþéttleikans og ferviki hans.
+
+Það er 
+\begin{align}
+    MSE &= E[(S_X(\omega)-\hat{S}_X(\omega)^2] \label{eq:lok}\\
+    &= (S_X(\omega)-E[\hat{S}_X])^2+E[(\hat{S}_X(\omega)-
+    E[\hat{S}_X(\omega)])^2] \label{eq:tilbaka} \\
+    &= bias(\hat{S}_X(\omega))^2+var(\hat{S}_X(\omega))
+\end{align}
+
+Hér er jafna (\ref{eq:tilbaka}) umrituð þar til komið er á form
+jöfnu (\ref{eq:lok}) og niðurstaðan þar sem sönnuð. Þar sem öll föll eru 
+föll af horntíðni $\omega$ er sleppt að rita það fyrir hvert fall.
+Einnig er sleppt að taka fram hvaða ferli fallið tilheyrir, þau 
+tilheyra öll saman ferli $X$.
+\begin{align*}
+    (S-E[\hat{S}])^2 + E[(\hat{S}-E[\hat{S}])^2] \\
+    &= S^2 - 2SE[\hat{S}]+E[\hat{S}]^2
+    + E[\hat{S}^2-2\hat{S}E[\hat{S}]+E[\hat{S}]^{2}] \\
+    &= E[S^2]-2E[S]E[\hat{S}] +2E[\hat{S}]^2 
+    +E[\hat{S}^2]-2E[\hat{S}E[\hat{S}]] \\
+    &= E[S^2-2S\hat{S}+\hat{S}^2]+2E[\hat{S}]^2-2E[\hat{S}E[\hat{S}]] \\
+    &= E[(S-\hat{S})^2] + \varphi \\
+    \varphi &= 2E[\hat{S}]^2-2E[\hat{S}E[\hat{S}]]
+\end{align*}
+Sýna má að $\varphi=0$ en til þess skal fyrst skoða seinni lið $\varphi$.
+\begin{align*}
+    E[\hat{S}E[\hat{S}]] \\
+    &= \frac{1}{N}\sum_N \hat{S} E[\hat{S}] \\
+    &= \frac{1}{N}\sum_N \hat{S} 
+    \left(\frac{1}{N} \sum_N \hat{S}\right) \\
+    &= \frac{1}{N^2}\left(\sum_N \hat{S} \right) ^{2} \\
+    &= E[\hat{S}]^2
+\end{align*}
+þar sem $N$ er fjöldi staka í $\hat{S}$.
+
+Þá má ljóslega sjá að liðir $\varphi$ eyða hvorum öðrum út svo 
+$\varphi=0$ og jafna (\ref{eq:lok}) er jöfn jöfnu (\ref{eq:tilbaka})
+og niðurstaðan heldur.
+\section{Samanburður aðferða}
+Notuð er fyrrgreind aðferð, sem nú er sýnt að virki skv. \ref{se:mse} 
+hluta, til að meta föllin úr \ref{se:foll} hluta. Niðurstöðurnar
+má lesa úr töflu \ref{tab:tafla}. Gildi úr líkani sem borið er saman
+við er tíðnigildi er lögleg Nyquist tíðni eða 
+$f_N = 2\cdot2\cdot\pi\cdot f_s$.
+\begin{table}[htbp]
+    \centering
+    \begin{tabular}{l | l | l | l}
+        Fall / gluggatýpa & Fervik & Bjögun & MSE \\ \hline
+        spect\_est\_pg    & 2.04E-06 & 6.09E-08 & 2.04E-06 \\
+        spect\_est\_ac    & 2.87E-07 & 6.17E-08 & 2.87E-07 \\
+        spect\_est\_x hamming & 2.92E-03 & 8.73E-04 & 2.92E-03 \\
+        spect\_est\_x hanning & 3.16E-03 & 1.06E-03 & 3.16E-03 \\
+    \end{tabular}
+    \caption{Mat á rófþéttleikaföllum.}
+    \label{tab:tafla}
+\end{table}
+\section{Kóði}
+LikVerk3.m
+\begin{verbatim}
+% Útdráttur úr sysxmp5.m úr bók
+%% b)
+fs=2000;
+dt=1/fs;
+t2=0:dt:0.016; % 0.016 / dt + 1 = 33 punktar 
+hn=exp(-600*t2);
+hn(1)=0.5*hn(1); % Helmingsvægi endapunkta
+randn('seed',500);
+x=sqrt(6000*2000)*randn(1,2000);
+n1=dt*conv(hn,x); % Sýni úr inntaki
+t=0:dt:(size(n1)(2)-1)*dt;
+figure(1);
+plot(t,n1);
+xlabel('t'); ylabel('X(t)');
+%% c)
+n=n1(33:1999);
+a1=126.28; a2=-62.83; a3=622; a4=-5.76*2*pi/180;
+t1=0:dt:0.08;
+h=a1*exp(a2*t1).*cos(a3*t1+a4*ones(size(t1)));
+y1=dt*conv(h,n);
+t=0:dt:(size(y1)(2)-1)*dt;
+figure(2);
+plot(t,y1);
+xlabel('t'); ylabel('Y(t)');
+%% d) 1. 
+S1=spect_est_pg(y1,dt);
+tau1=(length(S1)-1)/2;
+figure(3);
+plot([-tau1:tau1]./10,S1);
+xlabel('f');
+ylabel('S_y(f)');
+%% d) 2.
+% M sett á gildi 16 þar sem slíkt gildi
+% er notað í dæmi í námsbók.
+S2=spect_est_ac(y1,dt, 16);
+tau2=(length(S2)-1)/2;
+figure(4);
+plot([-tau2:tau2].*1.75,S2);
+xlabel('f');
+ylabel('S_y(f)');
+%% d) 3. Hamming
+S3=spect_est_x(y1,dt, 2, 1);
+tau3=(length(S3)-1)/2;
+figure(5);
+plot([-tau3:tau3].*3.7,S3);
+xlabel('f');
+ylabel('S_y(f)');
+%% d) 3. Hanning
+S4=spect_est_x(y1,dt, 3, 1);
+tau4=(length(S4)-1)/2;
+figure(6);
+plot([-tau4:tau4].*3.7,S4);
+xlabel('f');
+ylabel('S_y(f)');
+%% Samanburður Hamming og hanning.S3 er Hamming, S4 er Hanning.
+figure(7);
+plot([-tau4:tau4].*3.7,S4-S3);
+xlabel('f');
+ylabel('Hanning Sy - Hamming Sy');
+%% Fræðilegt S_y við nyquistgilda söfnunartíðni.
+fN=2*(2*pi*fs);
+Sy=(6.0792*10^4).*fN.^2./(fN.^6-1.01811.*10.^4.*fN.^4 ...
++7.88969.*10.^2.*fN.^2+8.93744.*10.^4);
+bias1=(Sy-mean(S1)).^2
+var1=var(S1)
+mse1=bias1.^2+var1;
+mse1=mean(mse1)
+bias2=(Sy-mean(S2)).^2
+var2=var(S2)
+mse2=bias2.^2+var2;
+mse2=mean(mse2)
+bias3=(Sy-mean(S3)).^2
+var3=var(S3)
+mse3=bias3.^2+var3;
+mse3=mean(mse3)
+bias4=(Sy-mean(S4)).^2
+var4=var(S4)
+mse4=bias4.^2+var4;
+mse4=mean(mse4)
+\end{verbatim}
+
+spect\_est\_pg.m
+\begin{verbatim}
+function [Shat] = spect_est_pg(x, dt)
+Fx = fft(x);
+absSquare = ((abs(Fx)).^2)./length(x);
+Shat = dt.*absSquare;
+\end{verbatim}
+
+spect\_est\_ac.m
+\begin{verbatim}
+function [Shat] = spect_est_ac(x, dt, M)
+% Umritun á corspec úr kafla 7-9
+fs=1/dt;
+[a,b]=size(x);
+if a<b % Gera inntak að dálkvigur
+    x=x';
+    N=b;
+else
+    N=a;
+end
+x1=detrend(x,0); % Fjarlægja fastaþátt.
+x1(2*N-2)=0;
+R1=real(ifft(abs(fft(x1)).^2));
+W=triang(2*N-1);
+R2=[R1(N:2*N-2);R1(1:N-1)]./((N)*W(1:2*N-2));
+R3=R2(N-M:N+M-1);
+H=hamming(2*M+1);
+R4=R3.*H(1:2*M);
+k=2^(ceil(log2(2*M))+2);
+S1=abs((1/fs)*fft(R4,k));
+Shat = S1;
+\end{verbatim}
+
+spect\_est\_x.m
+\end{document}
+
+
