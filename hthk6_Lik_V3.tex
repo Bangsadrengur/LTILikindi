@@ -102,7 +102,7 @@ Hér er jafna (\ref{eq:tilbaka}) umrituð þar til komið er á form
 jöfnu (\ref{eq:lok}) og niðurstaðan þar sem sönnuð. Þar sem öll föll eru 
 föll af horntíðni $\omega$ er sleppt að rita það fyrir hvert fall.
 Einnig er sleppt að taka fram hvaða ferli fallið tilheyrir, þau 
-tilheyra öll saman ferli $X$.
+tilheyra öll sama ferli.
 \begin{align*}
     (S-E[\hat{S}])^2 + E[(\hat{S}-E[\hat{S}])^2] \\
     &= S^2 - 2SE[\hat{S}]+E[\hat{S}]^2
@@ -130,9 +130,12 @@ og niðurstaðan heldur.
 \section{Samanburður aðferða}
 Notuð er fyrrgreind aðferð, sem nú er sýnt að virki skv. \ref{se:mse}.
 hluta, til að meta föllin úr \ref{se:foll}. hluta. Niðurstöðurnar
-má lesa úr töflu \ref{tab:tafla}. Gildi úr líkani sem borið er saman
-við er tíðnigildi er lögleg Nyquist tíðni eða 
+má lesa úr töflu \ref{tab:tafla}. Gildi líkans sem borið er saman við
+er tekið við löglegt nyquist tíðnigildi
 $f_N = 2\cdot2\cdot\pi\cdot f_s$.
+
+Sjá myndir \ref{fig:pg} - \ref{fig:hanning} fyrir útkomur mismunandi
+falla við að finna rófþéttleika útmerkis.
 \begin{table}[htbp]
     \centering
     \begin{tabular}{l | l | l | l}
@@ -148,7 +151,7 @@ $f_N = 2\cdot2\cdot\pi\cdot f_s$.
 \section{Samanburður hamming og hanning}
 Fyrir fallið ,spect\_est\_x' er mögulegt að velja þrjú mismunandi gluggaföll til að sía takmarkaða bandbreidd fyrir
 rófþéttleikann. Fallið bíður upp á ,boxcar' síu (mjög grófa kassasíu), sem er ekki notuð hér, og hamming og hanning
-síur sem hafa mjög vægan sveiflur í ,vængjum'. Úr töflu \ref{tab:tafla} má sjá að fyrir þær stillingar gilda sem hér
+síur sem hafa mjög vægar sveiflur í ,vængjum'. Úr töflu \ref{tab:tafla} má sjá að fyrir þær stillingar gilda sem hér
 er stillt á (sjá umfjöllun um notkun í hluta \ref{se:foll}) veldur hamming glugginn
 minni meðalkvaðratskekkju. Úr rissu af frádrætti hamming niðurstaðna frá hanning niðurstöðunum má sjá að hanning
 ferillinn byrjar í hærri útslagi og rís hægar og lægra en hamming ferillinn og dvínar svo aftur hægar. Sjá mynd 
@@ -194,7 +197,7 @@ ferillinn byrjar í hærri útslagi og rís hægar og lægra en hamming ferillin
     \begin{center}
         \includegraphics[scale=0.5]{fig6.pdf}
     \end{center}
-    \caption{Rófþéttleiki með spect\_est\_x, hamming glugga og nákvæmni í toppgildi.}
+    \caption{Rófþéttleiki með spect\_est\_x, hanning glugga og nákvæmni í toppgildi.}
     \label{fig:hanning}
 \end{figure}
 \begin{figure}[htbp]
